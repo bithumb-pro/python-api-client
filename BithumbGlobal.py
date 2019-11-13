@@ -68,7 +68,7 @@ class BithumbGlobalRestAPI:
         else:
             self.__secret = None
         self.__session = session = requests.session()
-        session.headers.update({'content-Type': 'application/json', 'counterId': '2'})
+        session.headers.update({'content-Type': 'application/json'})
 
 
     @property
@@ -201,12 +201,13 @@ class BithumbGlobalRestAPI:
 
 
     def depth(self, symbol, count):
-        url = DEPTH_URL+symbol.replace('/', '-')
+        url = DEPTH_URL + symbol.replace('/', '-')
         data = load_json(self.__session.get(url, timeout=5).text)
         return depth(data)
 
 
     def query_order(self, symbol, order_id):
+        symbol = symbol.replace('/', '-')
         order = self.post('singleOrder', {'symbol': symbol, 'orderId': order_id})
         return order
    
